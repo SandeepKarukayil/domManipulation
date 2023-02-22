@@ -1,5 +1,9 @@
 var form = document.getElementById('addForm');
+
 var itemList = document.getElementById('items');
+
+var filter = document.getElementById("filter");
+
 
 //form submit event
 
@@ -8,6 +12,9 @@ form.addEventListener('submit',
 
 //delete event 
 itemList.addEventListener('click', removeItem);
+//Filter event 
+filter.addEventListener('keyup', filterItems);
+
 //addItem
 
 function addItem(e) {
@@ -15,6 +22,7 @@ function addItem(e) {
 
   //get input value
   var newItem = document.getElementById('item').value;
+  var newItem1 = document.getElementById('description').value;
 
   //create new li element
 
@@ -27,6 +35,7 @@ function addItem(e) {
   //add text node with input value
 
   li.appendChild(document.createTextNode(newItem));
+  li.appendChild(document.createTextNode('  ' + newItem1))
 
   //Create a delete button 
   var deleteBtn = document.createElement('button');
@@ -62,5 +71,25 @@ function removeItem(e) {
       itemList.removeChild(li);
     }
   }
-
 }
+
+//Filter items
+function filterItems(e) {
+  //convert text to lowercase
+  let text = e.target.value.toLowerCase();
+  // Getting All LI Elements
+  let items = itemList.querySelectorAll("li");
+  items.forEach((item, i) => {
+    const itemName = item.firstChild.textContent;
+    const description = item.childNodes[1].textContent;
+    if (
+      itemName.toLowerCase().indexOf(text) != -1 ||
+      description.toLowerCase().indexOf(text) != -1
+    ) {
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
+
