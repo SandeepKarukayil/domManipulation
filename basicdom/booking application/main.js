@@ -7,6 +7,7 @@ form.addEventListener('submit',
 function addItem(e) {
   e.preventDefault();
 
+
   //get input value
   var newName = document.getElementById('name').value;
   var newEmail = document.getElementById('email').value;
@@ -14,22 +15,6 @@ function addItem(e) {
   //put in local storage
   // localStorage.setItem("name", newName);
   // localStorage.setItem("email", newEmail);
-
-
-  //create new li element
-
-  var data = document.createElement('li');
-
-  // Add class
-
-  data.className = 'list-group-item'
-
-  //add text node with input value
-
-  data.appendChild(document.createTextNode(newName));
-  data.appendChild(document.createTextNode('  ' + newEmail));
-  //append child
-  form.appendChild(data);
 
   let infoObj = {
     name: newName,
@@ -41,5 +26,39 @@ function addItem(e) {
   localStorage.setItem(infoObj.email, infoObj_serialized);
 
   let infoObj_deserialized = JSON.parse(localStorage.getItem("infoObj"))
+  // Add event for delete 
+  //form.addEventListener('click', removeItem);
+  //create new li element
+
+  var data = document.createElement('li');
+
+  // Add class
+
+  data.className = 'list-group-item'
+
+  //Create a delete button 
+  var deleteBtn = document.createElement('input');
+  deleteBtn.type = 'button';
+  deleteBtn.value = 'delete';
+
+  deleteBtn.onclick = () => {
+    localStorage.removeItem(infoObj.email);
+    form.removeChild(data);
+  };
+
+  //add classes to delete button 
+  deleteBtn.className = 'btn-delete';
+
+  //Append Text node to delete 
+  deleteBtn.appendChild(document.createTextNode('X'));
+  //add text node with input value
+
+  data.appendChild(document.createTextNode(newName));
+  data.appendChild(document.createTextNode('  ' + newEmail));
+
+  //append child
+  data.appendChild(deleteBtn);
+  form.appendChild(data);
+
 
 }
