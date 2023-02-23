@@ -51,12 +51,32 @@ function addItem(e) {
 
   //Append Text node to delete 
   deleteBtn.appendChild(document.createTextNode('X'));
+  //Create a edit button 
+  var editBtn = document.createElement('input');
+  editBtn.type = 'button';
+  editBtn.value = 'edit';
+
+  editBtn.onclick = () => {
+    document.querySelector('#name').value = infoObj.name;
+    document.querySelector('#email').value = infoObj.email;
+    localStorage.removeItem(infoObj.email);
+    form.removeChild(data);
+  };
+
+  //add classes to delete button 
+  editBtn.className = 'btn-edit';
+
+  //Append Text node to delete 
+  deleteBtn.appendChild(document.createTextNode('X'));
+  //add text node with input value
+
   //add text node with input value
 
   data.appendChild(document.createTextNode(newName));
   data.appendChild(document.createTextNode('  ' + newEmail));
 
   //append child
+  data.appendChild(editBtn);
   data.appendChild(deleteBtn);
   form.appendChild(data);
 
